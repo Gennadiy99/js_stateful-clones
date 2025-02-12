@@ -25,11 +25,14 @@ const actions = [
     type: 'addProperties',
     extraData: { another: 'one' },
   },
+  {
+    type: 'clear',
+  },
 ];
 
 function transformStateWithClones(initState, objActions) {
   const ArrState = [];
-  const objChange = { ...initState };
+  let objChange = { ...initState };
 
   objActions.forEach((elem) => {
     if (elem.type === 'addProperties') {
@@ -41,6 +44,11 @@ function transformStateWithClones(initState, objActions) {
       elem.keysToRemove.forEach((key) => {
         delete objChange[key];
       });
+      ArrState.push({ ...objChange });
+    }
+
+    if (elem.type === 'clear') {
+      objChange = {};
       ArrState.push({ ...objChange });
     }
   });
