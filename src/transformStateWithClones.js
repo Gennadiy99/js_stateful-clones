@@ -35,21 +35,42 @@ function transformStateWithClones(initState, objActions) {
   let objChange = { ...initState };
 
   objActions.forEach((elem) => {
-    if (elem.type === 'addProperties') {
-      Object.assign(objChange, elem.extraData);
-      ArrState.push({ ...objChange });
-    }
+    // if (elem.type === 'addProperties') {
+    //   Object.assign(objChange, elem.extraData);
+    //   ArrState.push({ ...objChange });
+    // }
 
-    if (elem.type === 'removeProperties') {
-      elem.keysToRemove.forEach((key) => {
-        delete objChange[key];
-      });
-      ArrState.push({ ...objChange });
-    }
+    // if (elem.type === 'removeProperties') {
+    //   elem.keysToRemove.forEach((key) => {
+    //     delete objChange[key];
+    //   });
+    //   ArrState.push({ ...objChange });
+    // }
 
-    if (elem.type === 'clear') {
-      objChange = {};
-      ArrState.push({ ...objChange });
+    // if (elem.type === 'clear') {
+    //   objChange = {};
+    //   ArrState.push({ ...objChange });
+    // }
+    switch (elem.type) {
+      case 'addProperties':
+        Object.assign(objChange, elem.extraData);
+        ArrState.push({ ...objChange });
+        break;
+
+      case 'removeProperties':
+        elem.keysToRemove.forEach((key) => {
+          delete objChange[key];
+        });
+        ArrState.push({ ...objChange });
+        break;
+
+      case 'clear':
+        objChange = {};
+        ArrState.push({ ...objChange });
+        break;
+
+      default:
+        break;
     }
   });
 
